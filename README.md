@@ -4,7 +4,7 @@ Bulk Writer is a small library which facilitates building fast, pull-based ETL p
 
 ## Documentation
 
-Documentation can be found at https://headspringlabs.github.io/bulk-writer/
+Documentation can be found at https://jbogard.github.io/bulk-writer/
 
 ## Installation
 
@@ -41,6 +41,14 @@ using (var bulkWriter = new BulkWriter<EntityToZipCodeDistance>(connectionString
 using (var bulkWriter = new BulkWriter<EntityToZipCodeDistance>(connectionString))
 {
     await bulkWriter.WriteToDatabaseAsync(q);
+}
+
+// or async enumerables with .NET Standard 2.1 or later
+var u = q.ToAsyncEnumerable(); // 
+
+using (var bulkWriter = new BulkWriter<EntityToZipCodeDistance>(connectionString))
+{
+    await bulkWriter.WriteToDatabaseAsync(u);
 }
 ```
 

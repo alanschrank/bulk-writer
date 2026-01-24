@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+          9.0.x
+          10.0.x
+    - name: Setup required dependencies
+      run: ./setup.ps1
+      shell: pwsh    
+    - name: Build and Test
+      run: ./Build.ps1
+      shell: pwsh
+    - name: Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: artifacts/**/*
